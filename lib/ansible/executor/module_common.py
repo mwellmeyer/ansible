@@ -517,9 +517,7 @@ def recursive_finder(name, data, py_module_names, py_module_cache, zf):
                 if module_info[2][2] == imp.PKG_DIRECTORY:
                     # Read the __init__.py instead of the module file as this is
                     # a python package
-                    import q ; q.q('one')
                     py_module_cache[py_module_name + ('__init__',)] = _slurp(os.path.join(os.path.join(module_info[1], '__init__.py')))
-                    import q ; q.q('two')
                     normalized_modules.add(py_module_name + ('__init__',))
                 else:
                     py_module_cache[py_module_name] = module_info[0].read()
@@ -533,13 +531,7 @@ def recursive_finder(name, data, py_module_names, py_module_cache, zf):
                 if py_pkg_name not in py_module_names:
                     snippet_path = os.path.join('/', *module_info[1].split('/')[:-(i + 1)])
                     normalized_modules.add(py_pkg_name)
-                    import q ; q.q('three')
-                    import q ; q.q(py_module_name)
-                    import q ; q.q(snippet_path)
-                    import q ; q.q(module_info[1].split('/')[:-(i + 1)])
-                    import q ; q.q(os.path.join(snippet_path, *py_pkg_name))
                     py_module_cache[py_pkg_name] = _slurp('%s.py' % os.path.join(snippet_path, *py_pkg_name))
-                    import q ; q.q('four')
 
     #
     # iterate through all of the ansible.module_utils* imports that we haven't
