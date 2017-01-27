@@ -529,9 +529,10 @@ def recursive_finder(name, data, py_module_names, py_module_cache, zf):
             for i in range(1, len(py_module_name)):
                 py_pkg_name = py_module_name[:-i] + ('__init__',)
                 if py_pkg_name not in py_module_names:
-                    snippet_path = os.path.join('/', *module_info[1].split('/')[:-(i + 1)])
+                    pkg_dir_info = imp.find_module(py_pkg_name[-1],
+                            [os.path.join(p, *py_pkg_name[:-1]) for p in snippet_paths])
                     normalized_modules.add(py_pkg_name)
-                    py_module_cache[py_pkg_name] = _slurp('%s.py' % os.path.join(snippet_path, *py_pkg_name))
+                    py_module_cache[py_pkg_name] = _slurp(pkg_dir_info[1])
 
     #
     # iterate through all of the ansible.module_utils* imports that we haven't
